@@ -643,6 +643,236 @@ a:hover {
 }
 
 /*--------------------------------------------------------------
+# Portfolio Section
+--------------------------------------------------------------*/
+.portfolio-section {
+    position: relative;
+    overflow: hidden;
+}
+
+.portfolio-filter {
+    margin-bottom: 30px;
+}
+
+.portfolio-filter button {
+    margin: 0 5px;
+    border-radius: 30px;
+    padding: 8px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.portfolio-filter button.active {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.portfolio-card {
+    position: relative;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--box-shadow);
+    margin-bottom: 30px;
+    height: 100%;
+    transition: var(--transition);
+}
+
+.portfolio-card:hover {
+    transform: translateY(-10px);
+}
+
+.portfolio-img {
+    position: relative;
+    overflow: hidden;
+}
+
+.portfolio-img img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.portfolio-card:hover .portfolio-img img {
+    transform: scale(1.1);
+}
+
+.portfolio-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(var(--primary-color-rgb), 0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: var(--transition);
+}
+
+.portfolio-card:hover .portfolio-overlay {
+    opacity: 1;
+}
+
+.portfolio-content {
+    text-align: center;
+    padding: 20px;
+    color: white;
+}
+
+.portfolio-content h5 {
+    margin-bottom: 5px;
+    color: white;
+}
+
+.portfolio-content p {
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+
+/* New styles for direct project links */
+.view-project-btn {
+    display: inline-block;
+    padding: 8px 15px;
+    background-color: white;
+    color: var(--primary-color);
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.view-project-btn:hover {
+    background-color: var(--dark-color);
+    color: white;
+}
+
+/* Mobile-friendly info section */
+.portfolio-info {
+    padding: 15px;
+    text-align: center;
+    background-color: #fff;
+    border-top: 1px solid var(--border-color);
+    display: none; /* Hidden by default on desktop */
+}
+
+[data-theme="dark"] .portfolio-info {
+    background-color: #1e1e1e;
+    color: var(--text-color-dark);
+}
+
+.portfolio-info h5 {
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+.portfolio-info p {
+    font-size: 14px;
+    margin-bottom: 15px;
+    color: var(--secondary-color);
+}
+
+.portfolio-link {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 50%;
+    background: white;
+    color: var(--primary-color);
+    font-size: 20px;
+    transition: var(--transition);
+}
+
+.portfolio-link:hover {
+    background: var(--dark-color);
+    color: white;
+}
+
+/* Portfolio Modal Styles */
+.portfolio-modals {
+    position: relative;
+}
+
+.portfolio-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 9999;
+    overflow-y: auto;
+    padding: 50px 0;
+}
+
+.portfolio-modal-content {
+    position: relative;
+    background: var(--body-color);
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 30px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+}
+
+.close-modal {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 30px;
+    cursor: pointer;
+    color: var(--text-color);
+    transition: var(--transition);
+}
+
+.close-modal:hover {
+    color: var(--primary-color);
+}
+
+.project-details {
+    padding: 20px 0;
+}
+
+.project-info {
+    margin: 20px 0;
+    padding: 15px;
+    background: rgba(var(--primary-color-rgb), 0.1);
+    border-radius: var(--border-radius);
+}
+
+.project-description {
+    margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+    .portfolio-modal-content {
+        padding: 20px;
+        margin: 20px;
+    }
+    
+    .portfolio-filter button {
+        margin-bottom: 10px;
+    }
+    
+    .portfolio-overlay {
+        display: none; /* Hide overlay on mobile */
+    }
+    
+    .portfolio-info {
+        display: block; /* Show info section on mobile */
+    }
+    
+    .portfolio-card:hover {
+        transform: none; /* Disable hover effect on mobile */
+    }
+}
+
+/*--------------------------------------------------------------
 # About Section
 --------------------------------------------------------------*/
 .about-image {

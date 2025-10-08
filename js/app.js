@@ -68,6 +68,38 @@ document.addEventListener('DOMContentLoaded', function() {
             e.stopPropagation();
         });
     }
+    
+    // Portfolio Filtering
+    const portfolioFilters = document.querySelectorAll('.portfolio-filter button');
+    const portfolioItems = document.querySelectorAll('.portfolio-item');
+    
+    if (portfolioFilters.length > 0 && portfolioItems.length > 0) {
+        portfolioFilters.forEach(filter => {
+            filter.addEventListener('click', function() {
+                // Remove active class from all filters
+                portfolioFilters.forEach(btn => btn.classList.remove('active'));
+                
+                // Add active class to clicked filter
+                this.classList.add('active');
+                
+                // Get filter value
+                const filterValue = this.getAttribute('data-filter');
+                
+                // Show/hide portfolio items based on filter
+                portfolioItems.forEach(item => {
+                    if (filterValue === '*') {
+                        item.style.display = 'block';
+                    } else if (item.classList.contains(filterValue.substring(1))) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+    }
+    
+    // Portfolio items are now direct links, no modal functionality needed
 
     // Back to Top Button
     const backToTopButton = document.querySelector('.back-to-top');
