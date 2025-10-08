@@ -50,8 +50,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Close mobile menu when clicking on a nav item
-    const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+    // Close mobile menu when clicking on a nav item (except dropdown toggle)
+    const navLinks = document.querySelectorAll('.navbar-nav .nav-link:not(.dropdown-toggle)');
     navLinks.forEach(link => {
         link.addEventListener('click', function() {
             const navbarCollapse = document.getElementById('navbarNav');
@@ -60,6 +60,14 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+    
+    // Prevent dropdown from closing when clicking on dropdown toggle
+    const dropdownToggle = document.querySelector('.dropdown-toggle');
+    if (dropdownToggle) {
+        dropdownToggle.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+    }
 
     // Back to Top Button
     const backToTopButton = document.querySelector('.back-to-top');
