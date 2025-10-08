@@ -265,6 +265,50 @@ a:hover {
     transform: translateX(24px);
 }
 
+/* Dark Mode Styles */
+body.dark-mode {
+    background-color: #121212;
+    color: #f8f9fa;
+}
+
+body.dark-mode .navbar {
+    background-color: #1e1e1e !important;
+}
+
+body.dark-mode .navbar-nav .nav-link {
+    color: #f8f9fa;
+}
+
+body.dark-mode .card,
+body.dark-mode .section-title h2,
+body.dark-mode .section-title p,
+body.dark-mode .footer {
+    background-color: #1e1e1e;
+    color: #f8f9fa;
+}
+
+body.dark-mode .bg-light {
+    background-color: #1e1e1e !important;
+}
+
+body.dark-mode .text-dark {
+    color: #f8f9fa !important;
+}
+
+body.dark-mode .btn-light {
+    background-color: #2d2d2d;
+    color: #f8f9fa;
+}
+
+body.dark-mode .portfolio-card {
+    background-color: #2d2d2d;
+}
+
+body.dark-mode .portfolio-info h5,
+body.dark-mode .portfolio-info p {
+    color: #f8f9fa;
+}
+
 /*--------------------------------------------------------------
 # Navbar
 --------------------------------------------------------------*/

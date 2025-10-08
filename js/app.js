@@ -349,7 +349,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Theme Toggle Functionality
-    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggle = document.getElementById('checkbox');
     if (themeToggle) {
         // Check for saved theme preference or use user's system preference
         const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
@@ -357,9 +357,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (savedTheme === 'dark' || (!savedTheme && prefersDarkScheme.matches)) {
             document.documentElement.setAttribute('data-theme', 'dark');
+            document.body.classList.add('dark-mode');
             themeToggle.checked = true;
         } else {
             document.documentElement.setAttribute('data-theme', 'light');
+            document.body.classList.remove('dark-mode');
             themeToggle.checked = false;
         }
 
@@ -367,9 +369,11 @@ document.addEventListener('DOMContentLoaded', function() {
         themeToggle.addEventListener('change', function() {
             if (this.checked) {
                 document.documentElement.setAttribute('data-theme', 'dark');
+                document.body.classList.add('dark-mode');
                 localStorage.setItem('theme', 'dark');
             } else {
                 document.documentElement.setAttribute('data-theme', 'light');
+                document.body.classList.remove('dark-mode');
                 localStorage.setItem('theme', 'light');
             }
         });
