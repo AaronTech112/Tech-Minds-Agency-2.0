@@ -616,6 +616,32 @@ a:hover {
     font-size: 1.25rem;
 }
 
+.mobile-enroll-btn {
+    display: none;
+    width: 100%;
+    margin-top: 10px;
+    text-align: center;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    background: var(--gradient);
+    color: white;
+    border-radius: var(--border-radius);
+}
+
+@media (max-width: 768px) {
+    .mobile-enroll-btn {
+        display: block;
+    }
+    
+    .training-overlay {
+        display: none;
+    }
+    
+    .training-card:hover {
+        transform: none;
+    }
+}
+
 /*--------------------------------------------------------------
 # About Section
 --------------------------------------------------------------*/
