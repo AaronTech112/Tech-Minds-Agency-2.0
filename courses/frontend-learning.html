@@ -636,7 +636,7 @@
                 <!-- Main Content Area -->
                 <div class="col-lg-9">
                     <!-- HTML & CSS for Absolute Beginners: Introduction -->
-                    <div id="topic-1" class="topic-contentactive">
+                    <div id="topic-1" class="topic-content active">
                         <h2 class="mb-4">HTML & CSS for Absolute Beginners: Introduction</h2>
                         <div class="video-container">
                             <iframe src="https://www.youtube.com/embed/1L2YiWdaUDM" title="HTML & CSS for Absolute Beginners: Introduction" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
@@ -1905,94 +1905,82 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../js/app.js"></script>
     <script>
-        // Topic navigation
+        // Topic navigation: build sidebar dynamically and robust next/prev
         document.addEventListener('DOMContentLoaded', function() {
-            const topicLinks = document.querySelectorAll('#topicList a');
-            const topicContents = document.querySelectorAll('.topic-content');
-            
-            topicLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
+            const topicListEl = document.getElementById('topicList');
+            const topicContents = Array.from(document.querySelectorAll('[id^="topic-"]'));
+
+            // Build sidebar items from topic sections (use h2 text)
+            if (topicListEl && topicContents.length) {
+                topicListEl.innerHTML = topicContents.map((section, i) => {
+                    const title = section.querySelector('h2')?.textContent.trim() || `Topic ${i+1}`;
+                    const activeClass = i === 0 ? 'active' : '';
+                    return `<li><a href="#${section.id}" data-target="${section.id}" class="${activeClass}">${title}</a></li>`;
+                }).join('');
+
+                // Activate first content
+                topicContents.forEach(c => c.classList.remove('active'));
+                topicContents[0].classList.add('active');
+            }
+
+            // Delegate clicks on sidebar links
+            if (topicListEl) {
+                topicListEl.addEventListener('click', function(e) {
+                    const link = e.target.closest('a[data-target]');
+                    if (!link) return;
                     e.preventDefault();
-                    
-                    // Remove active class from all links and contents
-                    topicLinks.forEach(l => l.classList.remove('active'));
+
+                    // Update active states
+                    topicListEl.querySelectorAll('a').forEach(l => l.classList.remove('active'));
                     topicContents.forEach(c => c.classList.remove('active'));
-                    
-                    // Add active class to clicked link
-                    this.classList.add('active');
-                    
-                    // Show corresponding content
-                    const targetId = this.getAttribute('data-target');
-                    document.getElementById(targetId).classList.add('active');
-                    
-                    // Scroll to top of content area on mobile
-                    if (window.innerWidth < 992) {
-                        const contentArea = document.querySelector('.col-lg-9');
-                        contentArea.scrollIntoView({ behavior: 'smooth' });
+                    link.classList.add('active');
+
+                    const targetId = link.getAttribute('data-target');
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        targetElement.classList.add('active');
+                        // Scroll content into view on mobile
+                        if (window.innerWidth < 992) {
+                            const contentArea = document.querySelector('.col-lg-9');
+                            contentArea?.scrollIntoView({ behavior: 'smooth' });
+                        }
                     }
                 });
-            });
-            
+            }
+
             // Dark Mode Toggle
             const checkbox = document.getElementById('checkbox');
             const body = document.body;
-            
-            // Check for saved theme preference but default to light mode
-            const isDarkMode = localStorage.getItem('darkMode') === 'enabled';
-            
-            // Set initial state - default to light mode
-            if (isDarkMode) {
-                body.classList.add('dark-mode');
-                checkbox.checked = true;
-            } else {
-                body.classList.remove('dark-mode');
-                checkbox.checked = false;
+            if (checkbox) {
+                const isDarkMode = localStorage.getItem('darkMode') === 'enabled';
+                body.classList.toggle('dark-mode', isDarkMode);
+                checkbox.checked = isDarkMode;
+                checkbox.addEventListener('change', function() {
+                    const enabled = this.checked;
+                    body.classList.toggle('dark-mode', enabled);
+                    localStorage.setItem('darkMode', enabled ? 'enabled' : 'disabled');
+                });
             }
-            
-            // Toggle dark mode
-            checkbox.addEventListener('change', function() {
-                if (this.checked) {
-                    body.classList.add('dark-mode');
-                    localStorage.setItem('darkMode', 'enabled');
-                } else {
-                    body.classList.remove('dark-mode');
-                    localStorage.setItem('darkMode', 'disabled');
-                }
-            });
-            
+
             // Mobile Navigation Buttons
             const prevButtons = document.querySelectorAll('.prev-topic');
             const nextButtons = document.querySelectorAll('.next-topic');
-            
-            // Function to navigate to previous/next topic
+
             function navigateTopic(direction) {
-                const activeLink = document.querySelector('#topicList a.active');
-                let targetLink;
-                
-                if (direction === 'prev') {
-                    targetLink = activeLink.parentElement.previousElementSibling?.querySelector('a');
-                } else {
-                    targetLink = activeLink.parentElement.nextElementSibling?.querySelector('a');
-                }
-                
-                if (targetLink) {
-                    targetLink.click();
+                if (!topicListEl) return;
+                const links = Array.from(topicListEl.querySelectorAll('a'));
+                if (!links.length) return;
+                const currentIndex = links.findIndex(a => a.classList.contains('active'));
+                if (currentIndex === -1) return;
+
+                const nextIndex = direction === 'prev' ? Math.max(0, currentIndex - 1) : Math.min(links.length - 1, currentIndex + 1);
+                if (nextIndex !== currentIndex) {
+                    links[nextIndex].click();
                 }
             }
-            
-            // Add event listeners to all previous buttons
-            prevButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    navigateTopic('prev');
-                });
-            });
-            
-            // Add event listeners to all next buttons
-            nextButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    navigateTopic('next');
-                });
-            });
+
+            prevButtons.forEach(button => button.addEventListener('click', () => navigateTopic('prev')));
+            nextButtons.forEach(button => button.addEventListener('click', () => navigateTopic('next')));
         });
     </script>
 </body>
