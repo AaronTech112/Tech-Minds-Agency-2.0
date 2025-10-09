@@ -351,18 +351,20 @@ document.addEventListener('DOMContentLoaded', function() {
     // Theme Toggle Functionality
     const themeToggle = document.getElementById('checkbox');
     if (themeToggle) {
-        // Check for saved theme preference or use user's system preference
-        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+        // Always start in light mode
         const savedTheme = localStorage.getItem('theme');
-
-        if (savedTheme === 'dark' || (!savedTheme && prefersDarkScheme.matches)) {
+        
+        // Only use saved theme if explicitly set to dark
+        if (savedTheme === 'dark') {
             document.documentElement.setAttribute('data-theme', 'dark');
             document.body.classList.add('dark-mode');
             themeToggle.checked = true;
         } else {
+            // Default to light mode
             document.documentElement.setAttribute('data-theme', 'light');
             document.body.classList.remove('dark-mode');
             themeToggle.checked = false;
+            localStorage.setItem('theme', 'light');
         }
 
         // Listen for toggle changes

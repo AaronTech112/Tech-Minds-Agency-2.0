@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frontend Web Development Learning Center - Tech Minds Academy</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="courses.css">
+    <style>
+        .learning-sidebar {
+            position: sticky;
+            top: 100px;
+            height: calc(100vh - 120px);
+            overflow-y: auto;
+        }
+        
+        .topic-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .topic-list li {
+            margin-bottom: 10px;
+        }
+        
+        .topic-list li a {
+            display: block;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .topic-list li a:hover, .topic-list li a.active {
+            background-color: rgba(var(--bs-primary-rgb), 0.1);
+            color: var(--bs-primary);
+        }
+        
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+        
+        .topic-content {
+            display: none;
+        }
+        
+        .topic-content.active {
+            display: block;
+        }
+        
+        .whatsapp-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background-color: #25D366;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            font-size: 30px;
+            line-height: 60px;
+            z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .whatsapp-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+        
+        .learning-header {
+            padding-top: 120px;
+            padding-bottom: 40px;
+            background: linear-gradient(135deg, #4e54c8, #8f94fb);
+            color: white;
+        }
+        
+        body.dark-mode .learning-header {
+            background: linear-gradient(135deg, #2c3e50, #1a1a2e);
+        }
+        
+        body.dark-mode .topic-list li a:hover, 
+        body.dark-mode .topic-list li a.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #8f94fb;
+        }
+        
+        .resource-card {
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+        
+        .resource-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        body.dark-mode .resource-card {
+            background-color: #2a2a2a;
+            border-color: #3a3a3a;
+        }
+        
+        .resource-icon {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: var(--bs-primary);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="../index.html">
+                <img src="../images/logo-dark.png" alt="Tech Minds" class="logo-dark">
+                <img src="../images/logo-light.png" alt="Tech Minds" class="logo-light">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="../index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="index.html">Courses</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../index.html#services">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../index.html#portfolio">Portfolio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../index.html#about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../index.html#contact">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <div class="theme-toggle">
+                            <input type="checkbox" class="checkbox" id="checkbox">
+                            <label for="checkbox" class="checkbox-label">
+                                <i class="mdi mdi-weather-sunny"></i>
+                                <i class="mdi mdi-weather-night"></i>
+                                <span class="ball"></span>
+                            </label>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Learning Center Header -->
+    <section class="learning-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h1 class="display-4 fw-bold mb-4">Frontend Web Development</h1>
+                    <p class="lead mb-4">Welcome to your learning center. Here you'll find all the resources you need to master HTML, CSS, JavaScript, and Bootstrap.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Learning Center Content -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <!-- Sidebar Navigation -->
+                <div class="col-lg-3">
+                    <div class="learning-sidebar">
+                        <h4 class="mb-4">Course Topics</h4>
+                        <ul class="topic-list" id="topicList">
+                            <li><a href="#html-basics" class="active" data-target="html-basics">HTML Basics</a></li>
+                            <li><a href="#html-forms" data-target="html-forms">HTML Forms & Tables</a></li>
+                            <li><a href="#css-basics" data-target="css-basics">CSS Basics</a></li>
+                            <li><a href="#css-layout" data-target="css-layout">CSS Layout & Flexbox</a></li>
+                            <li><a href="#css-grid" data-target="css-grid">CSS Grid</a></li>
+                            <li><a href="#responsive-design" data-target="responsive-design">Responsive Design</a></li>
+                            <li><a href="#js-basics" data-target="js-basics">JavaScript Basics</a></li>
+                            <li><a href="#js-dom" data-target="js-dom">JavaScript DOM</a></li>
+                            <li><a href="#js-events" data-target="js-events">JavaScript Events</a></li>
+                            <li><a href="#bootstrap-basics" data-target="bootstrap-basics">Bootstrap Basics</a></li>
+                            <li><a href="#bootstrap-components" data-target="bootstrap-components">Bootstrap Components</a></li>
+                            <li><a href="#bootstrap-layout" data-target="bootstrap-layout">Bootstrap Layout</a></li>
+                        </ul>
+                        
+                        <div class="mt-5">
+                            <h5 class="mb-3">Need Help?</h5>
+                            <a href="https://wa.me/1234567890" class="btn btn-outline-primary w-100">
+                                <i class="fab fa-whatsapp me-2"></i> Chat with Instructor
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Main Content Area -->
+                <div class="col-lg-9">
+                    <!-- HTML Basics -->
+                    <div id="html-basics" class="topic-content active">
+                        <h2 class="mb-4">HTML Basics</h2>
+                        <div class="video-container">
+                            <iframe src="https://www.youtube.com/embed/qz0aGYrrlhU" title="HTML Tutorial for Beginners" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                        <div class="content-description">
+                            <h4>What You'll Learn</h4>
+                            <ul>
+                                <li>Understanding HTML document structure</li>
+                                <li>Working with headings, paragraphs, and text formatting</li>
+                                <li>Adding links and images to your pages</li>
+                                <li>Creating lists (ordered and unordered)</li>
+                                <li>HTML semantic elements</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- HTML Forms & Tables -->
+                    <div id="html-forms" class="topic-content">
+                        <h2 class="mb-4">HTML Forms & Tables</h2>
+                        <div class="video-container">
+                            <iframe src="https://www.youtube.com/embed/KHWMYUIrJwM" title="HTML Forms and Tables Tutorial" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                        <div class="content-description">
+                            <h4>What You'll Learn</h4>
+                            <ul>
+                                <li>Creating HTML forms with various input types</li>
+                                <li>Form validation and submission</li>
+                                <li>Building tables for data presentation</li>
+                                <li>Table headers, footers, and styling</li>
+                                <li>Accessible forms and tables</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- CSS Basics -->
+                    <div id="css-basics" class="topic-content">
+                        <h2 class="mb-4">CSS Basics</h2>
+                        <div class="video-container">
+                            <iframe src="https://www.youtube.com/embed/yfoY53QXEnI" title="CSS Crash Course For Absolute Beginners" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                        <div class="content-description">
+                            <h4>What You'll Learn</h4>
+                            <ul>
+                                <li>CSS syntax and selectors</li>
+                                <li>Working with colors, backgrounds, and borders</li>
+                                <li>Text styling and typography</li>
+                                <li>The CSS box model</li>
+                                <li>CSS specificity and inheritance</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- CSS Layout & Flexbox -->
+                    <div id="css-layout" class="topic-content">
+                        <h2 class="mb-4">CSS Layout & Flexbox</h2>
+                        <div class="video-container">
+                            <iframe src="https://www.youtube.com/embed/JJSoEo8JSnc" title="Flexbox CSS In 20 Minutes" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                        <div class="content-description">
+                            <h4>What You'll Learn</h4>
+                            <ul>
+                                <li>CSS layout fundamentals</li>
+                                <li>Flexbox container and item properties</li>
+                                <li>Building flexible layouts</li>
+                                <li>Aligning and distributing content</li>
+                                <li>Responsive design with Flexbox</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- CSS Grid -->
+                    <div id="css-grid" class="topic-content">
+                        <h2 class="mb-4">CSS Grid</h2>
+                        <div class="video-container">
+                            <iframe src="https://www.youtube.com/embed/jV8B24rSN5o" title="CSS Grid Layout Crash Course" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                        <div class="content-description">
+                            <h4>What You'll Learn</h4>
+                            <ul>
+                                <li>CSS Grid container and item properties</li>
+                                <li>Creating grid layouts</li>
+                                <li>Grid template areas</li>
+                                <li>Grid alignment and positioning</li>
+                                <li>Combining Grid with Flexbox</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Responsive Design -->
+                    <div id="responsive-design" class="topic-content">
+                        <h2 class="mb-4">Responsive Design</h2>
+                        <div class="video-container">
+                            <iframe src="https://www.youtube.com/embed/srvUrASNj0s" title="Responsive Web Design Tutorial" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                        <div class="content-description">
+                            <h4>What You'll Learn</h4>
+                            <ul>
+                                <li>Media queries and breakpoints</li>
+                                <li>Mobile-first design approach</li>
+                                <li>Responsive images and media</li>
+                                <li>Viewport settings</li>
+                                <li>Testing responsive designs</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- JavaScript Basics -->
+                    <div id="js-basics" class="topic-content">
+                        <h2 class="mb-4">JavaScript Basics</h2>
+                        <div class="video-container">
+                            <iframe src="https://www.youtube.com/embed/hdI2bqOjy3c" title="JavaScript Crash Course For Beginners" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                        <div class="content-description">
+                            <h4>What You'll Learn</h4>
+                            <ul>
+                                <li>JavaScript syntax and data types</li>
+                                <li>Variables, operators, and expressions</li>
+                                <li>Control flow (conditionals and loops)</li>
+                                <li>Functions and scope</li>
+                                <li>Arrays and objects</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- JavaScript DOM -->
+                    <div id="js-dom" class="topic-content">
+                        <h2 class="mb-4">JavaScript DOM</h2>
+                        <div class="video-container">
+                            <iframe src="https://www.youtube.com/embed/0ik6X4DJKCc" title="JavaScript DOM Manipulation" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                        <div class="content-description">
+                            <h4>What You'll Learn</h4>
+                            <ul>
+                                <li>Understanding the Document Object Model (DOM)</li>
+                                <li>Selecting and manipulating DOM elements</li>
+                                <li>Creating and removing elements</li>
+                                <li>Changing element styles and attributes</li>
+                                <li>Traversing the DOM</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- JavaScript Events -->
+                    <div id="js-events" class="topic-content">
+                        <h2 class="mb-4">JavaScript Events</h2>
+                        <div class="video-container">
+                            <iframe src="https://www.youtube.com/embed/XF1_MlZ5l6M" title="JavaScript Event Listeners" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                        <div class="content-description">
+                            <h4>What You'll Learn</h4>
+                            <ul>
+                                <li>Understanding JavaScript events</li>
+                                <li>Event listeners and handlers</li>
+                                <li>Common events (click, submit, load, etc.)</li>
+                                <li>Event propagation (bubbling and capturing)</li>
+                                <li>Event delegation</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Bootstrap Basics -->
+                    <div id="bootstrap-basics" class="topic-content">
+                        <h2 class="mb-4">Bootstrap Basics</h2>
+                        <div class="video-container">
+                            <iframe src="https://www.youtube.com/embed/4sosXZsdy-s" title="Bootstrap 5 Crash Course" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                        <div class="content-description">
+                            <h4>What You'll Learn</h4>
+                            <ul>
+                                <li>Setting up Bootstrap in your project</li>
+                                <li>Understanding the Bootstrap grid system</li>
+                                <li>Typography and utility classes</li>
+                                <li>Responsive breakpoints</li>
+                                <li>Basic Bootstrap components</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Bootstrap Components -->
+                    <div id="bootstrap-components" class="topic-content">
+                        <h2 class="mb-4">Bootstrap Components</h2>
+                        <div class="video-container">
+                            <iframe src="https://www.youtube.com/embed/Jyvffr3aCp0" title="Bootstrap 5 Components" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                        <div class="content-description">
+                            <h4>What You'll Learn</h4>
+                            <ul>
+                                <li>Navigation components (navbar, tabs, pills)</li>
+                                <li>Card components</li>
+                                <li>Form components and validation</li>
+                                <li>Modal dialogs and popovers</li>
+                                <li>Carousel and image components</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Bootstrap Layout -->
+                    <div id="bootstrap-layout" class="topic-content">
+                        <h2 class="mb-4">Bootstrap Layout</h2>
+                        <div class="video-container">
+                            <iframe src="https://www.youtube.com/embed/qmPmwdshCMw" title="Bootstrap 5 Grid System" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                        <div class="content-description">
+                            <h4>What You'll Learn</h4>
+                            <ul>
+                                <li>Advanced grid system techniques</li>
+                                <li>Nested grids and column ordering</li>
+                                <li>Flexbox utilities in Bootstrap</li>
+                                <li>Creating responsive layouts</li>
+                                <li>Building common page layouts</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <img src="../images/logo-dark.png" alt="Tech Minds" class="footer-logo mb-4">
+                    <p>Empowering the next generation of tech professionals through quality education and hands-on experience.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4 mb-md-0">
+                    <h5>Quick Links</h5>
+                    <ul class="footer-links">
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="index.html">Courses</a></li>
+                        <li><a href="../index.html#about">About Us</a></li>
+                        <li><a href="../index.html#services">Services</a></li>
+                        <li><a href="../index.html#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+                    <h5>Popular Courses</h5>
+                    <ul class="footer-links">
+                        <li><a href="frontend-learning.html">Frontend Development</a></li>
+                        <li><a href="#">Backend Development</a></li>
+                        <li><a href="#">Full Stack Development</a></li>
+                        <li><a href="#">UI/UX Design</a></li>
+                        <li><a href="#">Data Science</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3">
+                    <h5>Contact Us</h5>
+                    <ul class="footer-contact">
+                        <li><i class="fas fa-map-marker-alt"></i> 123 Tech Street, Silicon Valley, CA</li>
+                        <li><i class="fas fa-phone"></i> +1 (123) 456-7890</li>
+                        <li><i class="fas fa-envelope"></i> info@techmindacademy.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p>&copy; 2023 Tech Minds Academy. All rights reserved.</p>
+                    </div>
+                    <div class="col-md-6 text-md-end">
+                        <p>Privacy Policy | Terms of Service</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Button -->
+    <a href="https://wa.me/1234567890" class="whatsapp-btn" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/app.js"></script>
+    <script>
+        // Topic navigation
+        document.addEventListener('DOMContentLoaded', function() {
+            const topicLinks = document.querySelectorAll('#topicList a');
+            const topicContents = document.querySelectorAll('.topic-content');
+            
+            topicLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Remove active class from all links and contents
+                    topicLinks.forEach(l => l.classList.remove('active'));
+                    topicContents.forEach(c => c.classList.remove('active'));
+                    
+                    // Add active class to clicked link
+                    this.classList.add('active');
+                    
+                    // Show corresponding content
+                    const targetId = this.getAttribute('data-target');
+                    document.getElementById(targetId).classList.add('active');
+                    
+                    // Scroll to top of content area on mobile
+                    if (window.innerWidth < 992) {
+                        const contentArea = document.querySelector('.col-lg-9');
+                        contentArea.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
