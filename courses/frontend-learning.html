@@ -9,11 +9,29 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="courses.css">
     <style>
+        /* Learning Center Specific Styles */
         .learning-sidebar {
             position: sticky;
             top: 100px;
             height: calc(100vh - 120px);
             overflow-y: auto;
+            padding-right: 15px;
+            scrollbar-width: thin;
+            scrollbar-color: #0d6efd #f0f0f0;
+        }
+        
+        .learning-sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .learning-sidebar::-webkit-scrollbar-track {
+            background: #f0f0f0;
+            border-radius: 10px;
+        }
+        
+        .learning-sidebar::-webkit-scrollbar-thumb {
+            background-color: #0d6efd;
+            border-radius: 10px;
         }
         
         .topic-list {
@@ -22,20 +40,26 @@
         }
         
         .topic-list li {
-            margin-bottom: 10px;
+            margin-bottom: 12px;
         }
         
         .topic-list li a {
             display: block;
-            padding: 10px 15px;
-            border-radius: 5px;
+            padding: 12px 15px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
             text-decoration: none;
+            color: #333;
             transition: all 0.3s ease;
+            font-weight: 500;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
         
         .topic-list li a:hover, .topic-list li a.active {
-            background-color: rgba(var(--bs-primary-rgb), 0.1);
-            color: var(--bs-primary);
+            background-color: #0d6efd;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
         
         .video-container {
@@ -43,7 +67,9 @@
             padding-bottom: 56.25%;
             height: 0;
             overflow: hidden;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
         
         .video-container iframe {
@@ -53,53 +79,122 @@
             width: 100%;
             height: 100%;
             border: 0;
+            border-radius: 10px;
         }
         
         .topic-content {
             display: none;
+            padding: 25px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            margin-bottom: 35px;
+            transition: all 0.3s ease;
         }
         
         .topic-content.active {
             display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .topic-content h4 {
+            color: #0d6efd;
+            margin-bottom: 15px;
+            font-weight: 600;
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 10px;
         }
         
         .whatsapp-btn {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
+            bottom: 30px;
+            right: 30px;
             width: 60px;
             height: 60px;
             background-color: #25D366;
             color: white;
             border-radius: 50%;
-            text-align: center;
-            font-size: 30px;
-            line-height: 60px;
-            z-index: 1000;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            z-index: 999;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
             transition: all 0.3s ease;
+            text-decoration: none;
         }
         
         .whatsapp-btn:hover {
             transform: scale(1.1);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-        }
-        
-        .learning-header {
-            padding-top: 120px;
-            padding-bottom: 40px;
-            background: linear-gradient(135deg, #4e54c8, #8f94fb);
             color: white;
         }
         
+        .learning-header {
+            padding: 130px 0 50px;
+            background: linear-gradient(135deg, #0d6efd, #0dcaf0);
+            color: white;
+            margin-bottom: 50px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .learning-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('../images/overlay-11.png');
+            background-size: cover;
+            opacity: 0.1;
+            z-index: 0;
+        }
+        
+        .learning-header .container {
+            position: relative;
+            z-index: 1;
+        }
+        
         body.dark-mode .learning-header {
-            background: linear-gradient(135deg, #2c3e50, #1a1a2e);
+            background: linear-gradient(135deg, #1a202c, #2d3748);
+        }
+        
+        body.dark-mode .topic-list li a {
+            background-color: #2d3748;
+            color: #e2e8f0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
         }
         
         body.dark-mode .topic-list li a:hover, 
         body.dark-mode .topic-list li a.active {
-            background-color: rgba(255, 255, 255, 0.1);
-            color: #8f94fb;
+            background-color: #4299e1;
+            color: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+        
+        body.dark-mode .topic-content {
+            background-color: #1a202c;
+            color: #e2e8f0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        body.dark-mode .topic-content h4 {
+            color: #63b3ed;
+            border-bottom-color: #2d3748;
+        }
+        
+        body.dark-mode .learning-sidebar::-webkit-scrollbar-track {
+            background: #2d3748;
+        }
+        
+        body.dark-mode .learning-sidebar::-webkit-scrollbar-thumb {
+            background-color: #4299e1;
         }
         
         .resource-card {
@@ -107,11 +202,68 @@
             overflow: hidden;
             transition: all 0.3s ease;
             height: 100%;
+            box-shadow: var(--shadow-light);
         }
         
         .resource-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Mobile Responsiveness */
+        @media (max-width: 991.98px) {
+            .learning-sidebar {
+                position: relative;
+                height: auto;
+                margin-bottom: 30px;
+                top: 0;
+            }
+            
+            .learning-header {
+                padding: 100px 0 40px;
+            }
+            
+            .topic-content {
+                padding: 20px;
+            }
+        }
+        
+        @media (max-width: 767.98px) {
+            .learning-header {
+                padding: 90px 0 30px;
+                text-align: center;
+                margin-bottom: 30px;
+            }
+            
+            .learning-header .btn {
+                margin-top: 20px;
+            }
+            
+            .topic-content:hover {
+                transform: none;
+            }
+        }
+        
+        @media (max-width: 575.98px) {
+            .learning-header h1 {
+                font-size: 2rem;
+            }
+            
+            .topic-list li a {
+                padding: 10px;
+            }
+            
+            .video-container {
+                margin-bottom: 20px;
+            }
+            
+            .whatsapp-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+                bottom: 20px;
+                right: 20px;
+            }
         }
         
         body.dark-mode .resource-card {
@@ -123,6 +275,31 @@
             font-size: 24px;
             margin-bottom: 15px;
             color: var(--bs-primary);
+        }
+        
+        /* Mobile Responsiveness */
+        @media (max-width: 991.98px) {
+            .learning-sidebar {
+                position: relative;
+                height: auto;
+                margin-bottom: 30px;
+                top: 0;
+            }
+            
+            .learning-header {
+                padding-top: 100px;
+                padding-bottom: 40px;
+            }
+        }
+        
+        @media (max-width: 767.98px) {
+            .learning-header {
+                text-align: center;
+            }
+            
+            .video-container {
+                margin-bottom: 20px;
+            }
         }
     </style>
 </head>
@@ -178,7 +355,11 @@
             <div class="row align-items-center">
                 <div class="col-lg-8 mx-auto text-center">
                     <h1 class="display-4 fw-bold mb-4">Frontend Web Development</h1>
-                    <p class="lead mb-4">Welcome to your learning center. Here you'll find all the resources you need to master HTML, CSS, JavaScript, and Bootstrap.</p>
+                    <p class="lead mb-4">Master HTML, CSS, JavaScript, and Bootstrap with our comprehensive video tutorials</p>
+                    <div class="d-flex justify-content-center gap-3">
+                        <a href="#content" class="btn btn-light btn-lg px-4">Start Learning Now</a>
+                        <a href="index.html" class="btn btn-outline-light btn-lg px-4">View All Courses</a>
+                    </div>
                 </div>
             </div>
         </div>
