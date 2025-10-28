@@ -1932,10 +1932,57 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../js/app.js"></script>
     <script>
-        // Topic navigation: build sidebar dynamically and robust next/prev
+        // Topic navigation and optimized YouTube loading: lazy-load and single-active video
         document.addEventListener('DOMContentLoaded', function() {
             const topicListEl = document.getElementById('topicList');
             const topicContents = Array.from(document.querySelectorAll('[id^="topic-"]'));
+
+            // Helper: convert existing iframes to lazy, nocookie embeds and prevent auto loading
+            const prepareIframes = () => {
+                topicContents.forEach(section => {
+                    const iframe = section.querySelector('.video-container iframe');
+                    if (!iframe) return;
+                    // Mark as lazy and set safer referrer policy
+                    try { iframe.setAttribute('loading', 'lazy'); } catch (e) {}
+                    iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+
+                    const existingSrc = iframe.getAttribute('src');
+                    if (existingSrc) {
+                        const match = existingSrc.match(/embed\/([^\?&]+)/i);
+                        const id = match && match[1] ? match[1] : null;
+                        const base = id ? `https://www.youtube-nocookie.com/embed/${id}` : existingSrc.replace('youtube.com', 'youtube-nocookie.com');
+                        const params = new URLSearchParams();
+                        params.set('rel', '0');
+                        params.set('modestbranding', '1');
+                        params.set('playsinline', '1');
+                        const newSrc = `${base}?${params.toString()}`;
+                        iframe.dataset.src = newSrc;
+                        iframe.removeAttribute('src');
+                    }
+                });
+            };
+
+            const loadVideoForSection = (section) => {
+                const iframe = section?.querySelector('.video-container iframe');
+                if (!iframe) return;
+                if (!iframe.getAttribute('src') && iframe.dataset.src) {
+                    iframe.setAttribute('src', iframe.dataset.src);
+                }
+            };
+
+            const unloadAllVideosExcept = (sectionToKeep) => {
+                topicContents.forEach(section => {
+                    if (section === sectionToKeep) return;
+                    const iframe = section.querySelector('.video-container iframe');
+                    if (iframe && iframe.getAttribute('src')) {
+                        // Attempt to pause video if possible (no-op without enablejsapi)
+                        try {
+                            iframe.contentWindow?.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+                        } catch (e) {}
+                        iframe.removeAttribute('src');
+                    }
+                });
+            };
 
             // Build sidebar items from topic sections (use h2 text)
             if (topicListEl && topicContents.length) {
@@ -1948,6 +1995,13 @@
                 // Activate first content
                 topicContents.forEach(c => c.classList.remove('active'));
                 topicContents[0].classList.add('active');
+            }
+
+            // Prepare iframes and ensure only the first topic's video is loaded
+            prepareIframes();
+            if (topicContents.length) {
+                loadVideoForSection(topicContents[0]);
+                unloadAllVideosExcept(topicContents[0]);
             }
 
             // Delegate clicks on sidebar links
@@ -1966,6 +2020,8 @@
                     const targetElement = document.getElementById(targetId);
                     if (targetElement) {
                         targetElement.classList.add('active');
+                        unloadAllVideosExcept(targetElement);
+                        loadVideoForSection(targetElement);
                         // Scroll content into view on mobile
                         if (window.innerWidth < 992) {
                             const contentArea = document.querySelector('.col-lg-9');
